@@ -171,10 +171,17 @@ package
 			bg.graphics.drawRoundRect(0,0,masterWidth,masterHeight,radius);
 			bg.graphics.endFill();
 			
-			wasteland();
+			
 		}
 		
-		public function wasteland()
+		public function remove()
+		{
+			var result = wasteland();
+			if(result==true)
+				return;
+		}
+		
+		private function wasteland():Boolean
 		{
 			this.myShape.graphics.clear();
 			this.removeEventListener(MouseEvent.MOUSE_DOWN,mouseDown_Handler);
@@ -184,7 +191,11 @@ package
 			{
 				this.removeChildAt(i);
 			}
+			
+			return true;
 		}
+		
+		
 		
 		public function getHEX(r:Number, g:Number, b:Number){
 		

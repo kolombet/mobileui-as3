@@ -1,8 +1,11 @@
 package
 {
+	import com.greensock.*;
+	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.MouseEvent;
 	import flash.filters.*;
 	import flash.system.Capabilities;
 	
@@ -31,17 +34,41 @@ package
 			var searchInput:UISearchInput = new UISearchInput();
 			searchInput.createSearchInput(150,40,300,200,'');
 	
+			button.addEventListener(MouseEvent.CLICK,function(){
 			
+				
+				
+				TweenLite.to(nav,1,{x:SGwidth*-1,y:0});
+				TweenLite.to(nav1, 1, {x:0, y:0});
+			
+			},false,0,true);
 			// Navigator
 			var nav:UINavigator = new UINavigator();
+			
 			nav.createTopBar(SGwidth,80,null,false,false,'Page #1');
+			nav.createNavigator(0xcccccc,SGwidth,SGheight,[checkbox,button,searchInput]);
+			nav.x = 0;
+			nav.y = 0;
+			
+			//////////////
+			var searchInput2:UISearchInput = new UISearchInput();
+			searchInput2.createSearchInput(150,40,300,200,'');
+			
+			var nav1:UINavigator = new UINavigator();
+			nav1.createTopBar(SGwidth,80,null,false,false,'Page #2');
+			nav1.createNavigator(0x419141,SGwidth,SGheight,[searchInput2]);
+			nav1.x = SGwidth;
+			nav1.y = 0;
 			
 			addChild(nav);
-			addChild(checkbox);
-			addChild(button);
-			addChild(searchInput);
+			addChild(nav1);
+			//addChild(checkbox);
+			//addChild(button);
+			//addChild(searchInput);
 		
 		}
+		
+		
 		
 		private function getBitmapFilter():BitmapFilter {
 			var color:Number = 0x000000;
