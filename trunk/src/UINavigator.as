@@ -1,8 +1,15 @@
 package
 {
+	/**
+	 * This class is responsible to offer basic navigation between views, this contains a top bar and a tab at the bottom
+	 * it slides with TweenLite when a click is made it constructs new children from the given view, when the slide stops
+	 * it destroys previous views.
+	 * 
+	 * */
 	import flash.display.CapsStyle;
 	import flash.display.GradientType;
 	import flash.display.JointStyle;
+	import flash.display.Shader;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
@@ -26,8 +33,6 @@ package
 		
 		public function createTopBar(width:Number = 480, height:Number=80,color:Array=null,backBtn:Boolean=false,actionBtn:Boolean=false,title:String='')
 		{
-			this.x = 0;
-			this.y = 0;
 			
 			if(color==null)
 			{
@@ -78,9 +83,26 @@ package
 			}
 		}
 		
-		public function createNavigator()
+		public function createNavigator(bgColor:uint=0xffffff,width:Number = 480,height:Number=800,items:Array = null):void
 		{
 			
+			var mainRect:Sprite = new Sprite();
+			mainRect.graphics.beginFill(bgColor,1);
+			mainRect.graphics.drawRect(0,0,width,height-82);
+			mainRect.graphics.endFill();
+			mainRect.x = 0;
+			mainRect.y = 82;
+			mainRect.width = width;
+			mainRect.height = height-82;
+			
+			
+			
+			for each(var item in items)
+			{
+				mainRect.addChild(item);
+			}
+			
+			this.addChild(mainRect);
 		}
 		
 		

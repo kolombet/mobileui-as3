@@ -6,8 +6,10 @@ package
 	import flash.display.CapsStyle;
 	import flash.display.GradientType;
 	import flash.display.JointStyle;
+	import flash.display.Shader;
 	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
 	import flash.filters.*;
 	import flash.geom.Matrix;
@@ -25,6 +27,7 @@ package
 		public static var signify2:String;
 		
 		private var myShape:Shape;
+		private var txtInput:TextField;
 		private var gradientBoxMatrix:Matrix;
 		private var masterWidth:Number;
 		private var masterHeight:Number;
@@ -71,7 +74,7 @@ package
 			myShape.graphics.endFill();
 			
 			//create the text input
-			var txtInput:TextField = new TextField();
+			txtInput = new TextField();
 			txtInput.type = TextFieldType.INPUT;
 			txtInput.width = width-30;
 			txtInput.height = height-10;
@@ -87,7 +90,7 @@ package
 			
 			//create the searchIcon
 			var tfl:TextField = new TextField();
-			tfl.text = '2';
+			tfl.text = 'S';
 			tfl.width = width/2;
 			//tfl.height = height/2;
 			tfl.textColor = 0x999999;
@@ -103,16 +106,35 @@ package
 			tfl.x = 3;
 			tfl.y = tfl.y - iconOffsetY;
 			
+			//draw circle
+			var circ:Shape = new Shape();
+			circ.graphics.beginFill(0xffffff,0.7);
+			circ.graphics.lineStyle(2,iconColor,1);
+			circ.graphics.drawCircle(8,8,8);
+			circ.graphics.endFill();
+			circ.x = 8;
+			circ.y = iconOffsetY;
+			
+			var iconLine:Shape = new Shape();
+			iconLine.graphics.lineStyle(3,iconColor,1,true);
+			iconLine.graphics.moveTo(5,iconOffsetY+10);
+			iconLine.graphics.lineTo(10,iconOffsetY+(10+8));
+			iconLine.graphics.endFill();
+			
+			iconLine.x = 17;
+			iconLine.y = iconLine.y+7;
 			//add some mobile goodness
 			var myGlow:BitmapFilter = getBitmapFilter();
 			myShape.filters = [myGlow]; // apply inner glow filter;
 			
 			// ADD TO SPRITE
 			this.addChild(myShape);
-			this.addChild(tfl);
+			//this.addChild(tfl);
+			this.addChild(circ);
+			this.addChild(iconLine);
 			this.addChild(txtInput);
 			
-			
+			registerListeners();
 		}
 		
 		private function getBitmapFilter():BitmapFilter {
@@ -133,6 +155,36 @@ package
 				quality,
 				inner,
 				knockout);
+		}
+		
+		public function registerListeners():void
+		{
+			txtInput.addEventListener(FocusEvent.FOCUS_IN,removeText,false,0,true);
+			txtInput.addEventListener(FocusEvent.FOCUS_OUT,removeText,false,0,true);
+		}
+		
+		private function removeText(e:FocusEvent):void
+		{
+			if(e.type=='focusIn')
+				e.currentTarget.text = '';
+			else{
+				if(e.currentTarget.text == '')
+					e.currentTarget.text = 'Search';
+			}
+		}
+		
+		private function wasteland():Boolean
+		{
+		
+			
+			return true;
+		}
+		
+		public function remove()
+		{
+			var result = wasteland();
+			if(result==true)
+				return;
 		}
 	}
 }
