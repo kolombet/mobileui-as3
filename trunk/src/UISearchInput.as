@@ -21,7 +21,7 @@ package
 	public class UISearchInput extends Sprite
 	{
 		
-		[Embed(source="fonts/signify-webfont.ttf", fontFamily="Signify", embedAsCFF="false")] 	
+		[Embed(source="fonts/signify-webfont.ttf", fontFamily="Signify2", embedAsCFF="false")] 	
 		public static var signify2:String;
 		
 		private var myShape:Shape;
@@ -34,12 +34,12 @@ package
 		private var gradientDown_:Array = [255,255,255];
 		
 		public var iconSize:Number = 28;
-		public var textSize:Number = 18;
+		public var textSize:Number = 20;
 		
 		public var borderColor:uint = 0xeeeeee;
 		public var iconColor:uint   = 0x999999;
 		
-		public var iconOffsetY:Number = 10;
+		public var iconOffsetY:Number = 8;
 		public var iconOffsetX:Number = 0;
 		
 		public function UISearchInput()
@@ -77,6 +77,7 @@ package
 			txtInput.height = height-10;
 			txtInput.textColor = 0x000000;
 			txtInput.embedFonts = false;
+			txtInput.text = 'Search';
 			
 			var tf:TextFormat = new TextFormat(null,textSize,0x000000);
 			txtInput.setTextFormat(tf);
@@ -86,16 +87,20 @@ package
 			
 			//create the searchIcon
 			var tfl:TextField = new TextField();
-			tfl.text = 'S';
+			tfl.text = '2';
 			tfl.width = width/2;
-			tfl.height = height/2;
+			//tfl.height = height/2;
 			tfl.textColor = 0x999999;
 			tfl.embedFonts = true;
-			var tf2:TextFormat = new TextFormat('Signify',iconSize,iconColor);
+			tfl.antiAliasType = flash.text.AntiAliasType.ADVANCED;
+			tfl.gridFitType = flash.text.GridFitType.PIXEL;
+			tfl.thickness = -100;
+			tfl.sharpness = -200;
+			var tf2:TextFormat = new TextFormat('Signify2',iconSize,iconColor,null,null);
 			tfl.setTextFormat(tf2);
 			tfl.selectable = false;
 			
-			tfl.x = 0;
+			tfl.x = 3;
 			tfl.y = tfl.y - iconOffsetY;
 			
 			//add some mobile goodness
@@ -104,9 +109,8 @@ package
 			
 			// ADD TO SPRITE
 			this.addChild(myShape);
-			this.addChild(txtInput);
 			this.addChild(tfl);
-			
+			this.addChild(txtInput);
 			
 			
 		}

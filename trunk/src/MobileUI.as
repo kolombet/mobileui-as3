@@ -4,6 +4,7 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.filters.*;
+	import flash.system.Capabilities;
 	
 	public class MobileUI extends Sprite
 	{
@@ -14,9 +15,13 @@ package
 			// support autoOrients
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
+			//get dimentions from stage
+			var st  = stage;
+			var SGwidth = st.fullScreenWidth;
+			var SGheight = st.fullScreenHeight;
 			
 			var button:UIButton = new UIButton();
-			button.createButton([button.getHEX(255,255,255),button.getHEX(237,237,237),button.getHEX(255,255,255)],[button.getHEX(246,248,249),button.getHEX(229,235,238),button.getHEX(215,222,227)],120,60,10,10,'E','EMail','left',0x000000);
+			button.createButton([button.getHEX(255,255,255),button.getHEX(237,237,237),button.getHEX(255,255,255)],[button.getHEX(246,248,249),button.getHEX(229,235,238),button.getHEX(215,222,227)],120,60,200,400,'E','EMail','left',0x000000);
 			button.registerListeners();
 			
 			var checkbox:UICheckbox = new UICheckbox();
@@ -25,11 +30,13 @@ package
 			
 			var searchInput:UISearchInput = new UISearchInput();
 			searchInput.createSearchInput(150,40,300,200,'');
-		
-			var glow:filtering = new filtering();
-			glow.GlowFilterExample();
+	
 			
-			addChild(glow);
+			// Navigator
+			var nav:UINavigator = new UINavigator();
+			nav.createTopBar(SGwidth,80,null,false,false,'Page #1');
+			
+			addChild(nav);
 			addChild(checkbox);
 			addChild(button);
 			addChild(searchInput);
@@ -45,7 +52,6 @@ package
 			var inner:Boolean = true;
 			var knockout:Boolean = false;
 			var quality:Number = BitmapFilterQuality.HIGH;
-			
 			
 			return new GlowFilter(color,
 				alpha,
