@@ -35,13 +35,14 @@ package
 			searchInput.createSearchInput(150,40,300,200,'');
 	
 			button.addEventListener(MouseEvent.CLICK,function(){
-			
 				
-				
-				TweenLite.to(nav,1,{x:SGwidth*-1,y:0});
+				TweenLite.to(nav,1,{x:SGwidth*-1,y:0,onComplete:function(){
+					
+					nav.remove();
+				}});
 				TweenLite.to(nav1, 1, {x:0, y:0});
 			
-			},false,0,true);
+			});
 			// Navigator
 			var nav:UINavigator = new UINavigator();
 			
@@ -55,7 +56,7 @@ package
 			searchInput2.createSearchInput(150,40,300,200,'');
 			
 			var nav1:UINavigator = new UINavigator();
-			nav1.createTopBar(SGwidth,80,null,false,false,'Page #2');
+			nav1.createTopBar(SGwidth,80,null,true,false,'Page #2');
 			nav1.createNavigator(0x419141,SGwidth,SGheight,[searchInput2]);
 			nav1.x = SGwidth;
 			nav1.y = 0;

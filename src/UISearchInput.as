@@ -175,7 +175,13 @@ package
 		
 		private function wasteland():Boolean
 		{
-		
+			txtInput.removeEventListener(FocusEvent.FOCUS_IN,removeText,false);
+			txtInput.removeEventListener(FocusEvent.FOCUS_OUT,removeText,false);
+			var num = this.numChildren-1;
+			for (var i = num;i >= 0;i--)
+			{
+				this.removeChildAt(i);
+			}
 			
 			return true;
 		}

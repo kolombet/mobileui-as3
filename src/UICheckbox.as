@@ -146,7 +146,7 @@ package
 			}
 		}
 		
-		public function wasteland()
+		private function wasteland()
 		{
 			this.myShape.graphics.clear();
 			this.removeEventListener(MouseEvent.MOUSE_DOWN,click_Handler);
@@ -155,6 +155,16 @@ package
 			{
 				this.removeChildAt(i);
 			}
+			
+			return true;
+		}
+		
+		public function remove()
+		{
+			var result = wasteland();
+			
+			if(result==true)
+				return;
 		}
 	}
 }
