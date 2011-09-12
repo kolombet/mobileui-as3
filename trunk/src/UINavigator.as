@@ -74,6 +74,41 @@ package
 				tfl.y = height/2 - tfl.textHeight/2;
 			}
 			
+			//if a back button is required
+			if(backBtn==true)
+			{
+				//draw the line
+				var vLine:Shape = new Shape();
+				vLine.graphics.lineStyle(2,0xcccccc,1,true,'normal');
+				vLine.graphics.moveTo(80,0);
+				vLine.graphics.lineTo(80,78);
+				
+				//draw the btn
+				var backButton:Shape = new Shape();
+				backButton.graphics.beginGradientFill(GradientType.LINEAR,color,[1,1],[0,128],gradientBoxMatrix);
+				//topBarRect.graphics.lineStyle(1,0x1e1e1e,1,true);
+				backButton.graphics.drawRoundRect(0,0,80,height-2,0);
+				backButton.graphics.endFill();
+				
+				//create the arrow
+				var tflBack:TextField = new TextField();
+				tflBack.text = '4';
+				tflBack.width = 80;
+				tflBack.textColor = 0x1e1e1e;
+				tflBack.embedFonts = true;
+				var tf:TextFormat = new TextFormat('Signify',42,0x1e1e1e);
+				tflBack.setTextFormat(tf);
+				tflBack.selectable = false;
+				
+				tflBack.x = 20;
+				tflBack.y = -5;
+				
+				backButton.x = 0;
+				backButton.y = 0;
+				
+				
+			}
+				
 			this.addChild(topBarRect);
 			this.addChild(line);
 			
@@ -81,6 +116,18 @@ package
 			{
 				this.addChild(tfl);
 			}
+			
+			if(backBtn==true)
+			{
+				this.addChild(backButton);
+				this.addChild(tflBack);
+				this.addChild(vLine);
+			}
+		}
+		
+		private function registerListeners()
+		{
+			
 		}
 		
 		public function createNavigator(bgColor:uint=0xffffff,width:Number = 480,height:Number=800,items:Array = null):void
@@ -92,10 +139,9 @@ package
 			mainRect.graphics.endFill();
 			mainRect.x = 0;
 			mainRect.y = 82;
+			mainRect.name = 'container';
 			mainRect.width = width;
 			mainRect.height = height-82;
-			
-			
 			
 			for each(var item in items)
 			{
@@ -103,6 +149,40 @@ package
 			}
 			
 			this.addChild(mainRect);
+		}
+		
+		private function wasteland()
+		{
+			
+			var num = this.numChildren-1;
+			//search and destroy
+			for (var i = num;i >= 0;i--)
+			{
+				var item = this.getChildAt(i);
+				//all outside children are in here
+				if(item.name=='container')
+				{
+					var internalItems = item.numChildren-1;
+					//internal removal
+					for(var j = internalItems;j>=0;j--)
+					{
+						item.getChildAt(j).remove();
+						item.removeChildAt(j);
+					}
+				}
+				
+				this.removeChildAt(i);
+			}
+			
+			return true;
+		}
+		
+		public function remove()
+		{
+			var result = wasteland();
+			
+			if(result==true)
+				return;
 		}
 		
 		
