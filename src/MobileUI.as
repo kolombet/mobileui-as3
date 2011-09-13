@@ -32,7 +32,7 @@ package
 			checkbox.registerListeners();
 			
 			var searchInput:UISearchInput = new UISearchInput();
-			searchInput.createSearchInput(150,40,300,200,'');
+			searchInput.createSearchInput('input',150,40,300,200,'',null,'numOnly');
 	
 			button.addEventListener(MouseEvent.CLICK,function(){
 				
@@ -53,7 +53,7 @@ package
 			
 			//////////////
 			var searchInput2:UISearchInput = new UISearchInput();
-			searchInput2.createSearchInput(150,40,300,200,'');
+			searchInput2.createSearchInput('password',150,40,300,200,'');
 			
 			var nav1:UINavigator = new UINavigator();
 			nav1.createTopBar(SGwidth,80,null,true,false,'Page #2');
