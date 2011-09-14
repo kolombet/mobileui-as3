@@ -9,6 +9,7 @@ package
 	import flash.filters.*;
 	import flash.system.Capabilities;
 	
+	
 	public class MobileUI extends Sprite
 	{
 		public function MobileUI()
@@ -43,11 +44,21 @@ package
 				TweenLite.to(nav1, 1, {x:0, y:0});
 			
 			});
+			
+			// player
+			//var pl:UIMediaPlayer = new UIMediaPlayer();
+			//pl.initPlayer(400,300,10,470);
+			
+			//slider
+			var slider:UISlider = new UISlider();
+			slider._stage = stage;
+			slider.createSlider(20,100,10,500);
+			
 			// Navigator
 			var nav:UINavigator = new UINavigator();
 			
 			nav.createTopBar(SGwidth,80,null,false,false,'Page #1');
-			nav.createNavigator(0xcccccc,SGwidth,SGheight,[checkbox,button,searchInput]);
+			nav.createNavigator(0xcccccc,SGwidth,SGheight,[checkbox,button,searchInput,slider]);
 			nav.x = 0;
 			nav.y = 0;
 			
