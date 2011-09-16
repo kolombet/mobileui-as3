@@ -23,12 +23,10 @@ package
 	
 	public class UISearchInput extends Sprite
 	{
-		public const INPUT_TYPE_SEARCH 		= 'search';
-		public const INPUT_TYPE_INPUT  		= 'input';
-		public const INPUT_TYPE_PASSWORD 	= 'password';
+		public const INPUT_TYPE_SEARCH:String 		= 'search';
+		public const INPUT_TYPE_INPUT:String  		= 'input';
+		public const INPUT_TYPE_PASSWORD:String 	= 'password';
 		
-		[Embed(source="fonts/signify-webfont.ttf", fontFamily="Signify2", embedAsCFF="false")] 	
-		public static var signify2:String;
 		
 		private var myShape:Shape;
 		private var txtInput:TextField;
@@ -39,6 +37,7 @@ package
 		private var radius:Number = 15;
 		private var gradientUp_:Array;
 		private var gradientDown_:Array = [255,255,255];
+		private var $validate:Object;
 		
 		public var iconSize:Number = 28;
 		public var textSize:Number = 20;
@@ -56,13 +55,14 @@ package
 		
 		
 		
-		public function createSearchInput(type:String=INPUT_TYPE_SEARCH,width:Number=150, height:Number=40,x:Number=0, y:Number=0,text:String='',color:Array=null, validate:String='numOnly'):void
+		public function createSearchInput(type:String=INPUT_TYPE_SEARCH,width:Number=150, height:Number=40,x:Number=0, y:Number=0,text:String='',color:Array=null, validate:String=null):void
 		{
 			if(color==null)
 			{
 				color = [0xffffff,0xffffff];
 			}
 			
+			$validate = validate;
 			this.x = x;
 			this.y = y;
 			
@@ -169,7 +169,9 @@ package
 		{
 			txtInput.addEventListener(FocusEvent.FOCUS_IN,removeText,false,0,true);
 			txtInput.addEventListener(FocusEvent.FOCUS_OUT,removeText,false,0,true);
-			txtInput.addEventListener(KeyboardEvent.KEY_DOWN,validate,false,0,true);
+			
+			if($validate!==null)
+				txtInput.addEventListener(KeyboardEvent.KEY_DOWN,validate,false,0,true);
 		}
 		
 		private function removeText(e:FocusEvent):void
@@ -182,7 +184,7 @@ package
 			}
 		}
 		
-		private function validate(e:KeyboardEvent)
+		private function validate(e:KeyboardEvent):void
 		{
 			if(e.keyCode==13)
 			{
@@ -190,9 +192,9 @@ package
 			}
 		}
 		
-		private function validateInput(type:String, numOfChars:Number=1)
+		private function validateInput(type:String, numOfChars:Number=1):*
 		{
-			var result = true;
+			var result:Boolean = true;
 			if(type=='mail')
 			{
 				var validEmailRegExp:RegExp = /([a-z0-9._-]+)@([a-z0-9.-]+)\.([a-z]{2,4})/;
@@ -217,8 +219,8 @@ package
 		{
 			txtInput.removeEventListener(FocusEvent.FOCUS_IN,removeText,false);
 			txtInput.removeEventListener(FocusEvent.FOCUS_OUT,removeText,false);
-			var num = this.numChildren-1;
-			for (var i = num;i >= 0;i--)
+			var num:Number = this.numChildren-1;
+			for (var i:Number = num;i >= 0;i--)
 			{
 				this.removeChildAt(i);
 			}
@@ -226,11 +228,11 @@ package
 			return true;
 		}
 		
-		public function remove()
+		public function remove():Boolean
 		{
-			var result = wasteland();
-			if(result==true)
-				return;
+			var result:Boolean = wasteland();
+			
+			return result;
 		}
 		
 		

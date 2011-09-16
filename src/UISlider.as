@@ -24,7 +24,7 @@ package
 			super();
 		}
 		
-		public function createSlider(width:Number=20,height:Number=100,x:Number=0,y:Number=0,boxWidth:Number=30, boxHeight:Number=100)
+		public function createSlider(width:Number=20,height:Number=100,x:Number=0,y:Number=0,boxWidth:Number=30, boxHeight:Number=100):void
 		{
 			maxMove = boxHeight;
 			
@@ -63,8 +63,8 @@ package
 			
 			var box:Sprite = new Sprite();
 			box.graphics.beginGradientFill(GradientType.LINEAR,[0x292929,0x000000,0x313232],[1,1,1],[0,128,255],gradientBoxMatrix);
-			box.graphics.lineStyle(1,0x0d0d0d,1);
-			box.graphics.drawRect(0,-maxMove,boxWidth,maxMove+32);
+			box.graphics.lineStyle(1,0x0d0d0d,1,true);
+			box.graphics.drawRoundRect(0,-maxMove,boxWidth,maxMove+32,20);
 			box.graphics.endFill();
 			box.addChild(middleLine);
 			
@@ -77,8 +77,8 @@ package
 		
 		private function registerListeners():void
 		{
-			this.slider.addEventListener (MouseEvent.MOUSE_DOWN, startScroll);
-			_stage.addEventListener (MouseEvent.MOUSE_UP, stopScroll);
+			this.slider.addEventListener (MouseEvent.MOUSE_DOWN, startScroll,false,0,true);
+			_stage.addEventListener (MouseEvent.MOUSE_UP, stopScroll,false,0,true);
 		}
 		
 		private function startScroll (e:Event):void {
@@ -94,17 +94,22 @@ package
 		
 		private function wasteland():Boolean
 		{
+			this.slider.removeEventListener(MouseEvent.MOUSE_DOWN,startScroll,false);
+			_stage.removeEventListener(MouseEvent.MOUSE_UP,stopScroll,false);
+			var num:Number = this.numChildren-1;
+			for (var i:Number = num;i >= 0;i--)
+			{
+				this.removeChildAt(i);
+			}
 			
 			return true;
 		}
 		
-		public function remove():void
+		public function remove():Boolean
 		{
+			var result:Boolean = wasteland();
 			
-			var result = remove();
-			
-			if(result)
-				return;.....
+			return result;
 		}
 	
 	}	
