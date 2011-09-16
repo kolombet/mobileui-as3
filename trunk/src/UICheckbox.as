@@ -1,21 +1,24 @@
 package
 {
+	import com.somerandomdude.iconic.*;
+	
 	import flash.display.CapsStyle;
 	import flash.display.GradientType;
 	import flash.display.JointStyle;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
 	import flash.geom.Matrix;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.utils.getQualifiedClassName;
 	
+	import mx.core.SpriteAsset;
 	
 	public class UICheckbox extends Sprite
 	{
-		[Embed(source="fonts/signify-webfont.ttf", fontFamily="Signify", embedAsCFF="false")] 	
-		public static var signify:String;
+		
 		
 		private var myShape:Shape;
 		private var gradientBoxMatrix:Matrix;
@@ -28,9 +31,13 @@ package
 		
 		private var $iconColor:uint;
 		private var $iconText:String = '';
+		private var icon:SpriteAsset;
+		private var myColor:ColorTransform;
 		
 		public var selected:Boolean = false;
 		public var customFunction:Function;
+		public var iconWidth:Number  = 32;
+		public var iconHeight:Number = 26;
 		
 		public function UICheckbox()
 		{
@@ -38,7 +45,7 @@ package
 		}
 		
 		
-		public function createCheckbox(width:Number=40, height:Number = 40,x:Number=0, y:Number=0,color:Array=null, iconColor=0x000000,_iconText='')
+		public function createCheckbox(width:Number=40, height:Number = 40,x:Number=0, y:Number=0,color:Array=null, iconColor:uint=0x000000,_iconText:String=''):void
 		{
 			if(color==null)
 				color = [0xeeeeee,0xcccccc];
@@ -52,6 +59,9 @@ package
 			masterHeight = height;
 			this.x = x;
 			this.y = y;
+			
+			
+			icon =  new Iconic.check() as SpriteAsset;
 			myShape = new Shape();
 			gradientBoxMatrix = new Matrix();
 			
@@ -63,9 +73,18 @@ package
 			myShape.graphics.endFill();
 			
 			
+			
 			// add the check
 			
-			var tfl:TextField = new TextField();
+			myColor = icon.transform.colorTransform;
+			myColor.color = 0xeeeeee;
+			icon.transform.colorTransform = myColor; 
+			icon.width  = iconWidth;
+			icon.height = iconHeight;
+			icon.y      = 6;
+			icon.x		= width/2 - iconWidth/2;
+			
+			/*var tfl:TextField = new TextField();
 			tfl.text = $iconText;
 			tfl.width = width/2 - 28;
 			tfl.height = height/2 - 28;
@@ -78,80 +97,43 @@ package
 			tfl.y = -10;
 			tfl.x = width/2-tfl.textWidth/2-2;
 			this.selected = false;
-			
+			*/
 			
 			this.addChild(myShape);
-			this.addChild(tfl);
+			this.addChild(icon);
+			//this.addChild(tfl);
 		}
 		
-		public function registerListeners()
+		public function registerListeners():void
 		{
 				this.addEventListener(MouseEvent.CLICK,click_Handler, false, 0, true);
 		}
 		
-		private function click_Handler(e:MouseEvent)
+		private function click_Handler(e:MouseEvent):void
 		{
-			var bg;
-			if(flash.utils.getQualifiedClassName(e.target)=='flash.text::TextField'){
-				bg = e.target.parent.getChildAt(0);
-			}
-			else
-				bg = e.target.getChildAt(0);
-			
-			/*gradientBoxMatrix.createGradientBox(width, height, Math.PI/2, 0, 0);  
-			bg.graphics.clear();
-			bg.graphics.beginGradientFill(GradientType.LINEAR,bgColor,[1,1],[0,255],gradientBoxMatrix);
-			bg.graphics.lineStyle(2,0x000000,1,true);
-			bg.graphics.drawRoundRect(0,0,width,height,radius);
-			bg.graphics.endFill();
-			*/
 			
 			if(selected==false)
 			{
 				// add the check
-				this.removeChildAt(this.numChildren-1);
-				var tfl:TextField = new TextField();
-				tfl.text = $iconText;
-				tfl.width = width/2 - 28;
-				tfl.height = height/2 - 28;
-				tfl.textColor = $iconColor;
-				tfl.embedFonts = true;
-				var tf:TextFormat = new TextFormat('Signify',28,$iconColor);
-				tfl.setTextFormat(tf);
-				tfl.selectable = false;
-				
-				tfl.y = -10;
-				tfl.x = width/2-tfl.textWidth/2-2;
-				this.selected = true;
-				this.addChild(tfl);
+				myColor = icon.transform.colorTransform;
+				myColor.color = 0x000000;
+				icon.transform.colorTransform = myColor; 
+				selected = true;
 			}
 			else{
-				
-				this.removeChildAt(this.numChildren-1);
-				this.selected = false;
-				var tfl:TextField = new TextField();
-				tfl.text = $iconText;
-				tfl.width = width/2 - 28;
-				tfl.height = height/2 - 28;
-				tfl.textColor = 0xeeeeee;
-				tfl.embedFonts = true;
-				var tf:TextFormat = new TextFormat('Signify',28,0xeeeeee);
-				tfl.setTextFormat(tf);
-				tfl.selectable = false;
-				
-				tfl.y = -10;
-				tfl.x = width/2-tfl.textWidth/2-2;
-				
-				this.addChild(tfl);
+				myColor = icon.transform.colorTransform;
+				myColor.color = 0xeeeeee;
+				icon.transform.colorTransform = myColor; 
+				selected = false;
 			}
 		}
 		
-		private function wasteland()
+		private function wasteland():Boolean
 		{
 			this.myShape.graphics.clear();
 			this.removeEventListener(MouseEvent.MOUSE_DOWN,click_Handler);
-			var num = this.numChildren-1;
-			for (var i = num;i >= 0;i--)
+			var num:Number = this.numChildren-1;
+			for (var i:Number = num;i >= 0;i--)
 			{
 				this.removeChildAt(i);
 			}
@@ -159,12 +141,11 @@ package
 			return true;
 		}
 		
-		public function remove()
+		public function remove():Boolean
 		{
-			var result = wasteland();
+			var result:Boolean = wasteland();
 			
-			if(result==true)
-				return;
+			return result;
 		}
 	}
 }
