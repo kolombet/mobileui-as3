@@ -53,7 +53,7 @@ package
 			
 			var middleLine:Shape = new Shape();
 			middleLine.graphics.beginFill(0xcacaca,1);
-			middleLine.graphics.lineStyle(4,0xeeeeee,1);
+			middleLine.graphics.lineStyle(4,0x676767,1);
 			middleLine.graphics.moveTo(boxWidth/2-4,-maxMove+2);
 			middleLine.graphics.lineTo(boxWidth/2-4,30);
 			middleLine.graphics.endFill();
@@ -62,9 +62,9 @@ package
 			slider.addChild(littleSlider);
 			
 			var box:Sprite = new Sprite();
-			box.graphics.beginGradientFill(GradientType.LINEAR,[0x292929,0x000000,0x313232],[1,1,1],[0,128,255],gradientBoxMatrix);
-			box.graphics.lineStyle(1,0x0d0d0d,1,true);
-			box.graphics.drawRoundRect(0,-maxMove,boxWidth,maxMove+32,20);
+			box.graphics.beginGradientFill(GradientType.LINEAR,[0xf3f3f3,0xf5f5f5,0xeaeaea],[1,1,1],[0,128,255],gradientBoxMatrix);
+			box.graphics.lineStyle(2,0x0d0d0d,1,true);
+			box.graphics.drawRoundRect(0,-maxMove,boxWidth,maxMove+32,5);
 			box.graphics.endFill();
 			box.addChild(middleLine);
 			

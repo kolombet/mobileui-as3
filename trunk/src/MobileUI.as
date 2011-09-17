@@ -28,7 +28,7 @@ package
 			var SGheight:Number = st.fullScreenHeight;
 			
 			var button:UIButton = new UIButton();
-			button.createButton([util.getHEX(255,255,255),util.getHEX(237,237,237),util.getHEX(255,255,255)],[util.getHEX(246,248,249),util.getHEX(229,235,238),util.getHEX(215,222,227)],80,50,200,400,'cog','','left',0x000000,32);
+			button.createButton([0xf3f3f3,0xf5f5f5,0xeaeaea],[0x676767,0x666666,0x616161],80,50,200,400,'cog','','left',0x000000,32);
 			button.registerListeners();
 			
 			var checkbox:UICheckbox = new UICheckbox();
@@ -36,7 +36,7 @@ package
 			checkbox.registerListeners();
 			
 			var searchInput:UISearchInput = new UISearchInput();
-			searchInput.createSearchInput('search',150,40,300,200,'',null,null);
+			searchInput.createSearchInput('search',250,40,300,200,'',null,null);
 	
 			button.addEventListener(MouseEvent.CLICK,function(){
 				
@@ -44,13 +44,12 @@ package
 					
 					nav.remove();
 				}});
-				//TweenLite.to(nav1, 1, {x:0, y:0});
+				TweenLite.to(nav1, 1, {x:0, y:0});
 			
 			});
 			
-			// player
-			//var pl:UIMediaPlayer = new UIMediaPlayer();
-			//pl.initPlayer(400,300,10,470);
+			//var loader:UILoader = new UILoader();
+			//loader.createLoader();
 			
 			//slider
 			var slider:UISlider = new UISlider();
@@ -58,9 +57,9 @@ package
 			slider.createSlider(20,100,10,200);
 			
 			var mediaPlayer:UIMediaPlayer = new UIMediaPlayer();
-			mediaPlayer.initPlayer(SGwidth,400,0,SGheight-400,true);
+			mediaPlayer.$stage = stage;
+			mediaPlayer.initPlayer(500,300,0,SGheight-300,true);
 			
-			trace(mediaPlayer.height);
 			// Navigator
 			var nav:UINavigator = new UINavigator();
 			
@@ -70,7 +69,7 @@ package
 			nav.y = 0;
 			
 			//////////////
-		/*	var searchInput2:UISearchInput = new UISearchInput();
+			var searchInput2:UISearchInput = new UISearchInput();
 			searchInput2.createSearchInput('password',150,40,300,200,'');
 			
 			var nav1:UINavigator = new UINavigator();
@@ -78,9 +77,9 @@ package
 			nav1.createNavigator(0x419141,SGwidth,SGheight,[searchInput2]);
 			nav1.x = SGwidth;
 			nav1.y = 0;
-		*/	
+			
 			addChild(nav);
-			//addChild(nav1);
+			addChild(nav1);
 			//addChild(checkbox);
 			//addChild(button);
 			//addChild(searchInput);
