@@ -26,7 +26,7 @@ package
 	{
 		public var $playerInstance:MediaPlayerSprite;
 		public var controlBar:UIControlBar;
-		private var _stage:Stage;
+		public var slider:UISlider;
 		private var _parameters:Object;
 		private var ControlTimer:Timer;
 		public var HideControlTimerDelay:Number = 5000;
@@ -68,6 +68,11 @@ package
 				
 				controlBar.x = 0;
 				controlBar.y = 0;
+				
+				slider = new UISlider();
+				slider.createSlider(20,100,controlBar.volume.x,h-70,30,100,false);
+				slider.visible = false;
+				this.slider.slider.y = -this.slider.maxMove/2;
 			}
 			
 			// create BG
@@ -82,9 +87,11 @@ package
 			$playerInstance.resource = new URLResource("http://osmf.org/dev/videos/cathy1_SD.mp4"); 
 			$playerInstance.width = w;
 			$playerInstance.height = h;
+			$playerInstance.mediaPlayer.volume = 1-((this.slider.bounds.x-this.slider.slider.y)/this.slider.maxMove);
+			trace(1-((this.slider.bounds.x-this.slider.slider.y)/this.slider.maxMove));
 			$playerInstance.mediaContainer.height = h;
 			$playerInstance.addChild(controlBar);
-			
+			$playerInstance.addChild(slider);
 			//$playerInstance.scaleMode= ScaleMode.STRETCH;
 			LayoutMetadata
 			($playerInstance.media.getMetadata(LayoutMetadata.LAYOUT_NAMESPACE))
@@ -96,11 +103,7 @@ package
 			this.addChild(bg);
 			this.addChild($playerInstance);
 			
-			if(controls)
-			{
-				//this.addChild(controlBar);
-				
-			}
+			
 			loader = new UILoader();
 			loader.createLoader();
 			
@@ -109,6 +112,8 @@ package
 			loader.name = 'loader';
 			this.addChild(loader);
 			loaderExists = true;
+			
+			//registering Listeners
 			registerListeners(controls,docked);
 		}
 		
@@ -123,7 +128,36 @@ package
 				{
 					autoHide();
 				}
+				this.controlBar.volume.addEventListener(MouseEvent.CLICK,toggleVolume,false,0,true);
+				this.slider.slider.addEventListener (MouseEvent.MOUSE_DOWN, startScroll,false,0,true);
+				$stage.addEventListener (MouseEvent.MOUSE_UP, stopScroll,false,0,true);
 			}
+		}
+		
+		private function toggleVolume(e):void
+		{
+			if(this.slider.visible == true)
+			{
+				this.slider.visible = false;
+				$stage.removeEventListener (MouseEvent.MOUSE_UP, stopScroll,false);
+			}
+			else{
+				this.slider.visible = true;
+				$stage.addEventListener (MouseEvent.MOUSE_UP, stopScroll,false,0,true);
+			}
+		}
+		
+		
+		private function startScroll (e:Event):void {
+			this.slider.scrolling = true;
+			this.slider.slider.startDrag (false,this.slider.bounds);
+		}
+		
+		private function stopScroll (e:Event):void {
+			this.slider.scrolling = false;
+			this.slider.slider.stopDrag ();
+			$playerInstance.mediaPlayer.volume = ((this.slider.bounds.x-this.slider.slider.y)/this.slider.maxMove);
+			
 		}
 		
 		private function checkState(e):void
@@ -192,7 +226,7 @@ package
 		{
 			TweenLite.to(controlBar,2,{x:0,y:$stage.height});
 			ControlTimer.removeEventListener(TimerEvent.TIMER_COMPLETE,HideControlTimer_timerCompleteHandler,false);
-			
+			toggleVolume(event);
 		}
 		
 		private function resetControlTimer(event:Event):void

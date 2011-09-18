@@ -3,7 +3,6 @@ package
 	import com.greensock.*;
 	import com.greensock.easing.*;
 	import com.greensock.plugins.*;
-	
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	
@@ -14,14 +13,18 @@ package
 		
 		private var counter:Number = 0;
 		private var bg:Sprite;
+		
 		public function UILoader()
 		{
 			super();
 		}
 		
-		
-		
-		public function createLoader(bgColor:uint=0x0d0d0d):void
+		/**
+		 * Creates a rounded rectangle and adds several blocks inside that serve as loading bar.
+		 * @param bgColor the background color
+		 * 
+		 */		
+		public function createLoader(bgColor:uint=0x2e2e2e):void
 		{
 			bg = new Sprite();
 			bg.graphics.beginFill(bgColor,1);
@@ -44,11 +47,11 @@ package
 			tint();
 		}
 		
-		private function registerListeners():void
-		{
-			
-		}
-		
+		/**
+		 * Applying colorization to each block, and removing it slower, then calls it self again with index raised by 1
+		 * @param value the current index
+		 * 
+		 */		
 		private function tint(value:Number=0):void
 		{
 			var length:Number = bg.numChildren;
@@ -69,14 +72,31 @@ package
 			}});
 		}
 		
+		/**
+		 * Removes graphics from the main container, and then removes each child.
+		 * @return returns true
+		 * 
+		 */		
 		private function wasteland():Boolean
 		{
+			bg.graphics.clear();
+			
+			var num:Number = this.numChildren-1;
+			for (var i:Number = num;i >= 0;i--)
+			{
+				this.removeChildAt(i);
+			}
 			
 			return true;
 		}
 		
+		/**
+		 * Calls the wasteland function. 
+		 * 
+		 */		
 		public function remove():void
 		{
+			var result:Boolean = wasteland();
 		}
 	}
 }

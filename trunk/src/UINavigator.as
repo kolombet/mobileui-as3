@@ -6,7 +6,10 @@ package
 	 * it destroys previous views.
 	 * 
 	 * */
+	import com.somerandomdude.iconic.*;
+	
 	import flash.display.CapsStyle;
+	import flash.display.DisplayObject;
 	import flash.display.GradientType;
 	import flash.display.JointStyle;
 	import flash.display.Shader;
@@ -18,8 +21,11 @@ package
 	import flash.text.TextFormat;
 	import flash.utils.getQualifiedClassName;
 	
+	import mx.core.SpriteAsset;
+	
 	public class UINavigator extends Sprite
 	{
+		public var backIcon:SpriteAsset;
 		public var stableParts:Array;
 		public var movingParts:Array;
 		
@@ -84,28 +90,20 @@ package
 				vLine.graphics.lineTo(80,78);
 				
 				//draw the btn
-				var backButton:Shape = new Shape();
+				var backButton:Sprite = new Sprite();
 				backButton.graphics.beginGradientFill(GradientType.LINEAR,color,[1,1],[0,128],gradientBoxMatrix);
 				//topBarRect.graphics.lineStyle(1,0x1e1e1e,1,true);
 				backButton.graphics.drawRoundRect(0,0,80,height-2,0);
 				backButton.graphics.endFill();
 				
-				//create the arrow
-				var tflBack:TextField = new TextField();
-				tflBack.text = '4';
-				tflBack.width = 80;
-				tflBack.textColor = 0x1e1e1e;
-				tflBack.embedFonts = true;
-				var tf:TextFormat = new TextFormat('Signify',42,0x1e1e1e);
-				tflBack.setTextFormat(tf);
-				tflBack.selectable = false;
-				
-				tflBack.x = 20;
-				tflBack.y = -5;
-				
 				backButton.x = 0;
 				backButton.y = 0;
 				
+				//create the arrow
+				backIcon = new SpriteAsset();
+				backIcon = new Iconic.arrowLeft() as SpriteAsset;
+				backIcon.x = 20;
+				backIcon.y = 20;
 				
 			}
 				
@@ -120,21 +118,20 @@ package
 			if(backBtn==true)
 			{
 				this.addChild(backButton);
-				this.addChild(tflBack);
+				backButton.addChild(backIcon);
 				this.addChild(vLine);
 			}
 		}
 		
-		private function registerListeners()
+		private function registerListeners():void
 		{
 			
 		}
 		
-		public function createNavigator(bgColor:uint=0xffffff,width:Number = 480,height:Number=800,items:Array = null):void
+		public function createNavigator(item:UIConstructor):void
 		{
 			
 			var mainRect:Sprite = new Sprite();
-			mainRect.graphics.beginFill(bgColor,1);
 			mainRect.graphics.drawRect(0,0,width,height-82);
 			mainRect.graphics.endFill();
 			mainRect.x = 0;
@@ -143,28 +140,25 @@ package
 			mainRect.width = width;
 			mainRect.height = height-82;
 			
-			for each(var item in items)
-			{
-				mainRect.addChild(item);
-			}
+			mainRect.addChild(item);
 			
 			this.addChild(mainRect);
 		}
 		
-		private function wasteland()
+		private function wasteland():Boolean
 		{
 			
-			var num = this.numChildren-1;
+			var num:Number = this.numChildren-1;
 			//search and destroy
-			for (var i = num;i >= 0;i--)
+			for (var i:int = num;i >= 0;i--)
 			{
 				var item = this.getChildAt(i);
 				//all outside children are in here
 				if(item.name=='container')
 				{
-					var internalItems = item.numChildren-1;
+					var internalItems:Number = item.numChildren-1;
 					//internal removal
-					for(var j = internalItems;j>=0;j--)
+					for(var j:int = internalItems;j>=0;j--)
 					{
 						item.getChildAt(j).remove();
 						item.removeChildAt(j);
@@ -177,12 +171,9 @@ package
 			return true;
 		}
 		
-		public function remove()
+		public function remove():void
 		{
-			var result = wasteland();
-			
-			if(result==true)
-				return;
+			var result:Boolean = wasteland();
 		}
 		
 		
