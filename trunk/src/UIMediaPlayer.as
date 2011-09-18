@@ -147,6 +147,12 @@ package
 			}
 		}
 		
+		private function removeVolumeBar():void
+		{
+			this.slider.visible = false;
+			$stage.removeEventListener (MouseEvent.MOUSE_UP, stopScroll,false);
+		}
+		
 		
 		private function startScroll (e:Event):void {
 			this.slider.scrolling = true;
@@ -226,7 +232,7 @@ package
 		{
 			TweenLite.to(controlBar,2,{x:0,y:$stage.height});
 			ControlTimer.removeEventListener(TimerEvent.TIMER_COMPLETE,HideControlTimer_timerCompleteHandler,false);
-			toggleVolume(event);
+			removeVolumeBar();
 		}
 		
 		private function resetControlTimer(event:Event):void

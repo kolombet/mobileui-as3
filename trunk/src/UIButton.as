@@ -24,7 +24,7 @@ package
 		[Embed(source="fonts/iconic_stroke.ttf", fontFamily="iconic", embedAsCFF="false")]
 		public static var iconic:Class;
 		
-		private var myShape:Shape;
+		private var ShapeSprite:Shape;
 		private var gradientBoxMatrix:Matrix;
 		private var masterWidth:Number;
 		private var masterHeight:Number;
@@ -44,7 +44,6 @@ package
 			//createButton();
 		}
 		
-		
 		public function createButton(gradientColor_:Array = null,gradientDown:Array=null,width:Number=120,height:Number=60,x:Number=10, y:Number=10, _Icontext:String = 'mail',text:String='',iconPosition:String='left',iconColor:uint=0x0e0e0e,iconSize:Number=32):void
 		{
 			if(gradientColor_==null)
@@ -52,19 +51,14 @@ package
 			else
 				gradientUp_ = gradientColor_;
 			
-	
 			gradientDown_ = gradientDown;
-			
 			
 			masterWidth = width;
 			masterHeight = height;
 			this.x = x;
 			this.y = y;
 			
-			icon = getIcon(_Icontext);
-			
-			
-			//trace(icon.width+" ++ "+height);
+			icon = utils.getIcon(_Icontext);
 			
 			if(icon.width!=icon.height){
 				var iconRatio:Number = icon.width/icon.height;
@@ -80,16 +74,15 @@ package
 			
 			var txt:TextField = new TextField();
 			txt.selectable = false;
-			myShape = new Shape();
+			ShapeSprite = new Shape();
 			
 			gradientBoxMatrix = new Matrix();
-			
 			gradientBoxMatrix.createGradientBox(width, height, Math.PI/2, 0, 0);  
 			
-			myShape.graphics.beginGradientFill(GradientType.LINEAR,gradientColor_,[1,1,1],[0,128,255],gradientBoxMatrix);
-			myShape.graphics.lineStyle(2,0x1e1e1e,1,true);
-			myShape.graphics.drawRoundRect(0,0,width,height,radius);
-			myShape.graphics.endFill();
+			ShapeSprite.graphics.beginGradientFill(GradientType.LINEAR,gradientColor_,[1,1,1],[0,128,255],gradientBoxMatrix);
+			ShapeSprite.graphics.lineStyle(2,0x1e1e1e,1,true);
+			ShapeSprite.graphics.drawRoundRect(0,0,width,height,radius);
+			ShapeSprite.graphics.endFill();
 			
 			
 			if(text==''){
@@ -125,13 +118,13 @@ package
 					txt.y = 40;
 					txt.x = width/2-txt.textWidth/2;
 					
-					myShape.graphics.clear();
+					ShapeSprite.graphics.clear();
 					gradientBoxMatrix.createGradientBox(width, height+20, Math.PI/2, 0, 0);  
 					
-					myShape.graphics.beginGradientFill(GradientType.LINEAR,gradientColor_,[1,1,1],[0,128,255],gradientBoxMatrix);
-					myShape.graphics.lineStyle(2,0x1e1e1e,1);
-					myShape.graphics.drawRoundRect(0,0,width,(height+20),radius);
-					myShape.graphics.endFill();
+					ShapeSprite.graphics.beginGradientFill(GradientType.LINEAR,gradientColor_,[1,1,1],[0,128,255],gradientBoxMatrix);
+					ShapeSprite.graphics.lineStyle(2,0x1e1e1e,1);
+					ShapeSprite.graphics.drawRoundRect(0,0,width,(height+20),radius);
+					ShapeSprite.graphics.endFill();
 					
 					masterHeight = height+20;
 				}
@@ -142,18 +135,18 @@ package
 			
 			if(width<(iconWidth+txt.textWidth+80)&&(iconPosition=='left'||iconPosition=='right')&&(text!==''))
 			{
-				myShape.graphics.clear();
+				ShapeSprite.graphics.clear();
 				gradientBoxMatrix.createGradientBox(width, height, Math.PI/2, 0, 0);  
 				
-				myShape.graphics.beginGradientFill(GradientType.LINEAR,gradientColor_,[1,1,1],[0,128,255],gradientBoxMatrix);
-				myShape.graphics.lineStyle(2,0x1e1e1e,1);
-				myShape.graphics.drawRoundRect(0,0,(iconWidth+txt.textWidth+60),height,radius);
-				myShape.graphics.endFill();
+				ShapeSprite.graphics.beginGradientFill(GradientType.LINEAR,gradientColor_,[1,1,1],[0,128,255],gradientBoxMatrix);
+				ShapeSprite.graphics.lineStyle(2,0x1e1e1e,1);
+				ShapeSprite.graphics.drawRoundRect(0,0,(iconWidth+txt.textWidth+60),height,radius);
+				ShapeSprite.graphics.endFill();
 				
 				masterWidth = iconWidth+txt.textWidth+60;
 			}
 			
-			this.addChild(myShape);
+			this.addChild(ShapeSprite);
 			this.addChild(icon);
 			this.addChild(txt);
 		}
@@ -169,7 +162,7 @@ package
 		{	
 				var bg:Object;
 			
-				bg = myShape;
+				bg = ShapeSprite;
 				gradientBoxMatrix.createGradientBox(masterWidth, masterHeight, Math.PI/2, 0, 0);
 				bg.graphics.clear();
 				bg.graphics.beginGradientFill(GradientType.LINEAR,gradientDown_,[1,1,1],[0,128,255],gradientBoxMatrix);
@@ -182,7 +175,7 @@ package
 		{
 			var bg:Object;
 			
-			bg = myShape;
+			bg = ShapeSprite;
 			gradientBoxMatrix.createGradientBox(masterWidth, masterHeight, Math.PI/2, 0, 0);
 			bg.graphics.clear();
 			bg.graphics.beginGradientFill(GradientType.LINEAR,gradientUp_,[1,1,1],[0,128,255],gradientBoxMatrix);
@@ -203,7 +196,7 @@ package
 		
 		private function wasteland():Boolean
 		{
-			this.myShape.graphics.clear();
+			this.ShapeSprite.graphics.clear();
 			this.removeEventListener(MouseEvent.MOUSE_DOWN,mouseDown_Handler);
 			this.removeEventListener(MouseEvent.MOUSE_UP,mouseUp_Handler);
 			
@@ -216,49 +209,7 @@ package
 			return true;
 		}
 		
-		private function getIcon(resource:String):SpriteAsset
-		{
-			var result:SpriteAsset;
-			switch(resource){
-			
-				case 'mail':
-					result = new Iconic.mail() as SpriteAsset;
-					break;
-				case 'home':
-					result = new Iconic.home() as SpriteAsset;
-					break;
-				case 'plus':
-					result = new Iconic.plus() as SpriteAsset;
-					break;
-				case 'cog':
-					result = new Iconic.cog() as SpriteAsset;
-					break;
-				case 'minus':
-					result = new Iconic.minus() as SpriteAsset;
-					break;
-				case 'link':
-					result = new Iconic.link() as SpriteAsset;
-					break;
-				case 'close':
-					result = new Iconic.x() as SpriteAsset;
-					break;
-				case 'user':
-					result = new Iconic.user() as SpriteAsset;
-					break;
-				case 'image':
-					result = new Iconic.image() as SpriteAsset;
-					break;
-				case 'info':
-					result = new Iconic.lightbulb() as SpriteAsset;
-					break;
-				default:
-					result = new Iconic.denied() as SpriteAsset;
-					break;
-				
-			}
-			
-			return result;
-		}
+		
 		
 		
 		
