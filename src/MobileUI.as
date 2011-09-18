@@ -28,7 +28,7 @@ package
 			var SGheight:Number = st.fullScreenHeight;
 			
 			var button:UIButton = new UIButton();
-			button.createButton([0xf3f3f3,0xf5f5f5,0xeaeaea],[0x676767,0x666666,0x616161],80,50,500,400,'cog','','left',0x000000,32);
+			button.createButton([0xf3f3f3,0xf5f5f5,0xeaeaea],[0x676767,0x666666,0x616161],80,50,SGwidth/2-80,100,'cog','','left',0x000000,32);
 			button.registerListeners();
 			
 			var checkbox:UICheckbox = new UICheckbox();
@@ -36,16 +36,11 @@ package
 			checkbox.registerListeners();
 			
 			var searchInput:UISearchInput = new UISearchInput();
-			searchInput.createSearchInput('search',250,40,300,200,'',null,null);
-	
-			//slider
-			var slider:UISlider = new UISlider();
-			slider._stage = stage;
-			slider.createSlider(20,100,10,200);
+			searchInput.createSearchInput('search',SGwidth,40,0,0,'',null,null);
 			
 			var mediaPlayer:UIMediaPlayer = new UIMediaPlayer();
 			mediaPlayer.$stage = stage;
-			mediaPlayer.initPlayer(500,300,0,SGheight-300,true);
+			mediaPlayer.initPlayer(500,300,(SGwidth/2)-500/2,SGheight-300,true);
 			
 			
 			button.addEventListener(MouseEvent.CLICK,function(){
@@ -59,31 +54,34 @@ package
 			});
 			
 			
-			
-			
 			//Constructor
 			var uiConstructor:UIConstructor = new UIConstructor();
-			uiConstructor.constructView(0xcccccc,SGwidth,SGheight,[checkbox,button,searchInput,slider,mediaPlayer]);
+			uiConstructor.constructView(0xcccccc,SGwidth,SGheight,[checkbox,button,searchInput,mediaPlayer]);
 			
 			
 			// Navigator
 			var nav:UINavigator = new UINavigator();
 			nav.createTopBar(SGwidth,80,null,false,false,'Page #1');
 			nav.createNavigator(uiConstructor);
+			nav.name = 'MainView';
 			nav.x = 0;
 			nav.y = 0;
 			
 			//////////////
 			var searchInput2:UISearchInput = new UISearchInput();
-			searchInput2.createSearchInput('password',150,40,300,200,'');
+			searchInput2.createSearchInput('search',SGwidth,40,0,0,'');
+			
+			var uiList:UIList = new UIList();
+			uiList.createList(0,40,SGwidth,SGheight,'assets/data.xml');
 			
 			var uiConstructor2:UIConstructor = new UIConstructor();
-			uiConstructor2.constructView(0xcccccc,SGwidth,SGheight,[searchInput2]);
+			uiConstructor2.constructView(0xcccccc,SGwidth,SGheight,[searchInput2,uiList]);
 			
 			var nav1:UINavigator = new UINavigator();
 			nav1.createTopBar(SGwidth,80,null,true,false,'Page #2');
 			nav1.createNavigator(uiConstructor2);
 			nav1.x = SGwidth;
+			nav1.name = 'list';
 			nav1.y = 0;
 			
 			addChild(nav);

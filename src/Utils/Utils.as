@@ -1,7 +1,19 @@
 package Utils
 {
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.events.Event;
+	
+	import mx.core.SpriteAsset;
+
 	public class Utils
 	{
+		import com.somerandomdude.iconic.*;
+		
+		public var loader:URLLoader;
+		public var data:XML;
+		public var items:XMLList;
+		
 		public function Utils()
 		{
 			//nothing much
@@ -73,8 +85,61 @@ package Utils
 			return hs;
 		}
 		
-		public function gcd (a, b) {
+		public function gcd (a:Number, b:Number):Number {
 			return (b == 0) ? a : gcd (b, a%b);
+		}
+		
+		public function getIcon(resource:String):SpriteAsset
+		{
+			var result:SpriteAsset;
+			switch(resource){
+				
+				case 'mail':
+					result = new Iconic.mail() as SpriteAsset;
+					break;
+				case 'home':
+					result = new Iconic.home() as SpriteAsset;
+					break;
+				case 'plus':
+					result = new Iconic.plus() as SpriteAsset;
+					break;
+				case 'cog':
+					result = new Iconic.cogAlt() as SpriteAsset;
+					break;
+				case 'minus':
+					result = new Iconic.minus() as SpriteAsset;
+					break;
+				case 'link':
+					result = new Iconic.link() as SpriteAsset;
+					break;
+				case 'close':
+					result = new Iconic.x() as SpriteAsset;
+					break;
+				case 'user':
+					result = new Iconic.user() as SpriteAsset;
+					break;
+				case 'image':
+					result = new Iconic.image() as SpriteAsset;
+					break;
+				case 'info':
+					result = new Iconic.lightbulb() as SpriteAsset;
+					break;
+				default:
+					result = new Iconic.denied() as SpriteAsset;
+					break;
+				
+			}
+			
+			return result;
+		}
+		
+		public function dataLoad(src:String):void {
+			loader = new URLLoader();
+			loader.load(new URLRequest(src));
+		}
+		
+		private function dataLoaded(event:Event):void {
+			trace("Data Loaded.");
 		}
 
 	}
