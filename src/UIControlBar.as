@@ -96,6 +96,9 @@ package
 			
 			volume.x = width - volume.width - 20;
 			volume.y = height/2 - volume.height/2;
+			volume.buttonMode = true;
+			volume.mouseEnabled = true;
+			volume.cacheAsBitmap = true;
 			
 			bar.addChild(lineTop);
 			bar.addChild(lineBot);

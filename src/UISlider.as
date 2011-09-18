@@ -11,12 +11,12 @@ package
 	
 	public class UISlider extends Sprite
 	{
-		private var scrolling:Boolean = false;
-		private var slider:Sprite;
-		private var bounds:Rectangle;
+		public var scrolling:Boolean = false;
+		public var slider:Sprite;
+		public var bounds:Rectangle;
 		private var gradientBoxMatrix:Matrix;
-		
-		private var maxMove:Number;
+		private var hasListeners:Boolean = false;
+		public var maxMove:Number;
 		public var _stage:Stage;
 		
 		public function UISlider()
@@ -24,10 +24,10 @@ package
 			super();
 		}
 		
-		public function createSlider(width:Number=20,height:Number=100,x:Number=0,y:Number=0,boxWidth:Number=30, boxHeight:Number=100):void
+		public function createSlider(width:Number=20,height:Number=100,x:Number=0,y:Number=0,boxWidth:Number=30, boxHeight:Number=100,hasOwnListeners:Boolean=false):void
 		{
 			maxMove = boxHeight;
-			
+			hasListeners = hasOwnListeners;
 			this.x = x;
 			this.y = y;
 			slider = new Sprite();
@@ -72,7 +72,8 @@ package
 			
 			box.addChild(slider);
 			this.addChild(box);
-			registerListeners();
+			if(hasListeners)
+				registerListeners();
 		}
 		
 		private function registerListeners():void
@@ -94,8 +95,10 @@ package
 		
 		private function wasteland():Boolean
 		{
-			this.slider.removeEventListener(MouseEvent.MOUSE_DOWN,startScroll,false);
-			_stage.removeEventListener(MouseEvent.MOUSE_UP,stopScroll,false);
+			if(hasListeners){
+				this.slider.removeEventListener(MouseEvent.MOUSE_DOWN,startScroll,false);
+				_stage.removeEventListener(MouseEvent.MOUSE_UP,stopScroll,false);
+			}
 			var num:Number = this.numChildren-1;
 			for (var i:Number = num;i >= 0;i--)
 			{

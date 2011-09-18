@@ -206,6 +206,7 @@ package
 			this.myShape.graphics.clear();
 			this.removeEventListener(MouseEvent.MOUSE_DOWN,mouseDown_Handler);
 			this.removeEventListener(MouseEvent.MOUSE_UP,mouseUp_Handler);
+			
 			var num:Number = this.numChildren-1;
 			for (var i:Number = num;i >= 0;i--)
 			{
