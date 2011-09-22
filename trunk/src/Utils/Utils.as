@@ -1,8 +1,8 @@
 package Utils
 {
+	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-	import flash.events.Event;
 	
 	import mx.core.SpriteAsset;
 
@@ -91,6 +91,7 @@ package Utils
 		
 		public function getIcon(resource:String):SpriteAsset
 		{
+			
 			var result:SpriteAsset;
 			switch(resource){
 				
@@ -124,6 +125,9 @@ package Utils
 				case 'info':
 					result = new Iconic.lightbulb() as SpriteAsset;
 					break;
+				case 'calendar':
+					result = new Iconic.calendarAltFill() as SpriteAsset;
+					break;
 				default:
 					result = new Iconic.denied() as SpriteAsset;
 					break;
@@ -133,7 +137,7 @@ package Utils
 			return result;
 		}
 		
-		public function dataLoad(src:String):void {
+		public function dataLoad(src:*):void {
 			loader = new URLLoader();
 			loader.load(new URLRequest(src));
 		}

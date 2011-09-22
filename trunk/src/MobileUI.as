@@ -42,6 +42,9 @@ package
 			mediaPlayer.$stage = stage;
 			mediaPlayer.initPlayer(500,300,(SGwidth/2)-500/2,SGheight-300,true);
 			
+			var date:UIDatepickerInput = new UIDatepickerInput();
+			date.createUIDatepicker(300,40,100,350);
+			
 			
 			button.addEventListener(MouseEvent.CLICK,function(){
 				
@@ -56,7 +59,7 @@ package
 			
 			//Constructor
 			var uiConstructor:UIConstructor = new UIConstructor();
-			uiConstructor.constructView(0xcccccc,SGwidth,SGheight,[checkbox,button,searchInput,mediaPlayer]);
+			uiConstructor.constructView(0xcccccc,SGwidth,SGheight,[checkbox,button,searchInput,mediaPlayer,date]);
 			
 			
 			// Navigator

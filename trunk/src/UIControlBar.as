@@ -9,6 +9,7 @@ package
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
 	import flash.geom.Matrix;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -26,9 +27,10 @@ package
 		public var volume:SpriteAsset;
 		public var mute:SpriteAsset;
 		public var fullScreen:SpriteAsset;
+		public var seeker:UISeekSlider;
 		
 		private var bar:Sprite;
-		
+		private var myColor:ColorTransform;
 		
 		public function UIControlBar()
 		{
@@ -83,6 +85,12 @@ package
 			
 			lineBot.width = width;
 			
+			// SEEKER
+			
+			seeker = new UISeekSlider();
+			seeker.createSlider(200,20,pause.x+50, height/2 - 20/2);
+			
+			
 			/// END OF CREATING THE MAIN BAR
 			play.x = 20;
 			play.y = height/2 - play.height/2;
@@ -100,11 +108,21 @@ package
 			volume.mouseEnabled = true;
 			volume.cacheAsBitmap = true;
 			
+			myColor = new ColorTransform();
+			myColor.color = 0x2d2d2d;
+			play.transform.colorTransform = myColor;
+			pause.transform.colorTransform = myColor;
+			volume.transform.colorTransform = myColor;
+			//seeker coords
+			seeker.x  =  pause.x + pause.width+20;
+			seeker.y  =  height/2 - seeker.height/2;
+			
 			bar.addChild(lineTop);
 			bar.addChild(lineBot);
 			bar.addChild(play);
 			bar.addChild(pause);
 			bar.addChild(volume);
+			bar.addChild(seeker);
 			this.addChild(bar);
 			
 		}
