@@ -27,6 +27,7 @@ package
 		public var $playerInstance:MediaPlayerSprite;
 		public var controlBar:UIControlBar;
 		public var slider:UISlider;
+		public var seeker:UISeekSlider;
 		private var _parameters:Object;
 		private var ControlTimer:Timer;
 		public var HideControlTimerDelay:Number = 5000;
@@ -64,15 +65,17 @@ package
 			if(controls)
 			{
 				controlBar = new UIControlBar();
+				slider = new UISlider();
 				controlBar.createControlBar(w,40,0,h-40,null,false,false);
 				
 				controlBar.x = 0;
 				controlBar.y = 0;
 				
-				slider = new UISlider();
+				
 				slider.createSlider(20,100,controlBar.volume.x,h-70,30,100,false);
 				slider.visible = false;
 				this.slider.slider.y = -this.slider.maxMove/2;
+			
 			}
 			
 			// create BG
@@ -88,7 +91,7 @@ package
 			$playerInstance.width = w;
 			$playerInstance.height = h;
 			$playerInstance.mediaPlayer.volume = 1-((this.slider.bounds.x-this.slider.slider.y)/this.slider.maxMove);
-			trace(1-((this.slider.bounds.x-this.slider.slider.y)/this.slider.maxMove));
+			
 			$playerInstance.mediaContainer.height = h;
 			$playerInstance.addChild(controlBar);
 			$playerInstance.addChild(slider);
@@ -132,6 +135,15 @@ package
 				this.slider.slider.addEventListener (MouseEvent.MOUSE_DOWN, startScroll,false,0,true);
 				$stage.addEventListener (MouseEvent.MOUSE_UP, stopScroll,false,0,true);
 			}
+			
+			
+		}
+		
+		private function updateSeeker(e)
+		{
+			var value =  (($playerInstance.mediaPlayer.currentTime * 200) / $playerInstance.mediaPlayer.duration);
+			
+			controlBar.seeker.increaseSeeker(value);
 		}
 		
 		private function toggleVolume(e):void
@@ -178,6 +190,7 @@ package
 					{
 						this.removeChild(result);
 						loaderExists = false;
+						addEventListener(Event.ENTER_FRAME,updateSeeker,false,0,true);
 					}
 				}
 			}

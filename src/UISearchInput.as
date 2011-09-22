@@ -28,7 +28,7 @@ package
 		public const INPUT_TYPE_PASSWORD:String 	= 'password';
 		
 		
-		private var myShape:Shape;
+		private var inputBox:Shape;
 		private var txtInput:TextField;
 		private var gradientBoxMatrix:Matrix;
 		private var masterWidth:Number;
@@ -67,15 +67,15 @@ package
 			this.y = y;
 			
 			// draw the rectancle
-			myShape = new Shape();
+			inputBox = new Shape();
 			gradientBoxMatrix = new Matrix();
 			
 			gradientBoxMatrix.createGradientBox(width, height, Math.PI/2, 0, 0);  
 			
-			myShape.graphics.beginGradientFill(GradientType.LINEAR,color,[1,1],[0,255],gradientBoxMatrix);
-			myShape.graphics.lineStyle(2,borderColor,1,true);
-			myShape.graphics.drawRoundRect(0,0,width,height,radius,radius);
-			myShape.graphics.endFill();
+			inputBox.graphics.beginGradientFill(GradientType.LINEAR,color,[1,1],[0,255],gradientBoxMatrix);
+			inputBox.graphics.lineStyle(2,borderColor,1,true);
+			inputBox.graphics.drawRoundRect(0,0,width,height,radius,radius);
+			inputBox.graphics.endFill();
 			
 			//create the text input
 			txtInput = new TextField();
@@ -131,10 +131,10 @@ package
 			
 			//add some mobile goodness
 			var myGlow:BitmapFilter = getBitmapFilter();
-			myShape.filters = [myGlow]; // apply inner glow filter;
+			inputBox.filters = [myGlow]; // apply inner glow filter;
 			
 			// ADD TO SPRITE
-			this.addChild(myShape);
+			this.addChild(inputBox);
 			if(type=='search'){
 				this.addChild(circ);
 				this.addChild(iconLine);

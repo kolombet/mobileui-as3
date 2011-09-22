@@ -34,7 +34,7 @@ package
 			super();
 		}
 	
-	public function createList(x:Number,y:Number,width:Number=200,height:Number=200,data=null):void
+	public function createList(x:Number,y:Number,width:Number=200,height:Number=200,data:Object=null):void
 	{
 		//mainContainer
 		mc = new Sprite();
@@ -74,7 +74,7 @@ package
 		mc.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler, false, 0, true);
 	}
 	
-	private function dataLoaded(e,data:Object=null)
+	private function dataLoaded(e,data:Object=null):void
 	{
 		if(e!='ready'){
 			var items:XMLList;
