@@ -2,6 +2,7 @@ package
 {
 	import Utils.Utils;
 	
+	import com.andrevenancio.component.Calendar;
 	import com.greensock.*;
 	import com.greensock.plugins.*;
 	
@@ -11,10 +12,13 @@ package
 	import flash.display.Shader;
 	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.display.Stage;
+	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.filters.*;
+	import flash.geom.ColorTransform;
 	import flash.geom.Matrix;
 	import flash.text.*;
 	import flash.text.TextField;
@@ -31,10 +35,13 @@ package
 		private var radius:Number = 15;
 		private var gradientBoxMatrix:Matrix;
 		private var utils:Utils = new Utils();
+		private var icon:Sprite
 		
 		public var textSize:Number = 22;
 		public var borderColor:uint = 0xb1b1b1;
 		public var iconColor:uint   = 0x999999;
+		public var iconContainer:Sprite = new Sprite();
+		public var $stage:Stage;
 		
 		public function UIDatepickerInput()
 		{
@@ -76,18 +83,22 @@ package
 			txtInput.x = 6;
 			
 			//create a rect with the icon
-			var iconContainer:Sprite = new Sprite();
+			
 			iconContainer.graphics.beginGradientFill(GradientType.LINEAR,[0xffffff,0xe5e5e5],[1,1],[0,255],gradientBoxMatrix);
 			iconContainer.graphics.lineStyle(1,0xb1b1b1,1,true);
-			iconContainer.graphics.drawCircle(30,30,30);
+			iconContainer.graphics.drawCircle(28,28,28);
 			iconContainer.graphics.endFill();
 			iconContainer.x = width-20;
-			iconContainer.y = -10;
+			iconContainer.y = -8;
 			
 			
-			var icon:SpriteAsset = utils.getIcon('calendar');
+			icon = utils.getIcon('calendar') as SpriteAsset;
 			icon.buttonMode = true;
 			icon.useHandCursor = true;
+			
+			var colorize:ColorTransform = new ColorTransform();
+			colorize.color = 0x1e1e1e;
+			icon.transform.colorTransform = colorize;
 			
 			iconContainer.addChild(icon);
 			
@@ -97,6 +108,42 @@ package
 			this.addChild(inputBox);
 			this.addChild(iconContainer);
 			this.addChild(txtInput);
+			
+			addEventListeners();
+		}
+		
+		private function addEventListeners():void
+		{
+			icon.addEventListener(MouseEvent.CLICK,openCalendar,false,0,true);
+			$stage.addEventListener(MouseEvent.CLICK, closeCalendar,false, 0, true);
+		}
+		
+		private function openCalendar(e:Event):void
+		{
+			var bg:Sprite = new Sprite();
+			bg.graphics.beginFill(0xf7f7f7,1);
+			bg.graphics.lineStyle(1,0x1e1e1e,1);
+			bg.graphics.drawRoundRect(0,0,180,140,5,5);
+			bg.graphics.endFill();
+			bg.x = this.x;
+			bg.y = this.y;
+			
+			var calendar:Calendar = new Calendar();
+			calendar.x = 20;
+			calendar.y = 0;
+			bg.addChild(calendar);
+			$stage.addChild(bg);
+			
+			calendar.name = 'calendar';
+			var _data:Date = new Date();
+			calendar.month = _data.getMonth();
+			calendar.year = _data.getFullYear();
+			calendar.Render();
+		}
+		
+		private function closeCalendar(e:Event):void
+		{
+			
 		}
 		
 		private function wasteland():Boolean{
